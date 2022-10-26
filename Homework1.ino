@@ -15,9 +15,9 @@ int redPotValue = 0;
 int greenPotValue = 0;
 int bluePotValue = 0;
 
-int redBrightness = 0;
-int greenBrightness  = 0;
-int blueBrightness = 0;
+int redLedBrightness = 0;
+int greenLedBrightness  = 0;
+int blueLedBrightness = 0;
 
 void setup() {
   
@@ -34,12 +34,12 @@ void loop() {
   greenPotValue = analogRead(greenPotPin);
   bluePotValue = analogRead(bluePotPin);
 
-  redBrightness = map(redPotValue, potLowerBound, potUpperBound, ledLowerBound, ledUpperBound);
-  greenBrightness = map(greenPotValue, potLowerBound, potUpperBound, ledLowerBound, ledUpperBound);
-  blueBrightness =  map(bluePotValue, potLowerBound, potUpperBound, ledLowerBound, ledUpperBound);
+  redLedBrightness = map(redPotValue, potLowerBound, potUpperBound, ledLowerBound, ledUpperBound);
+  greenLedBrightness = map(greenPotValue, potLowerBound, potUpperBound, ledLowerBound, ledUpperBound);
+  blueLedBrightness =  map(bluePotValue, potLowerBound, potUpperBound, ledLowerBound, ledUpperBound);
 
-  analogWrite(redPin, redBrightness);
-  analogWrite(greenPin, greenBrightness);
-  analogWrite(bluePin, blueBrightness);
+  analogWrite(redPin, redLedBrightness);
+  analogWrite(greenPin, greenLedBrightness);
+  analogWrite(bluePin, blueLedBrightness);
   
 }
