@@ -24,6 +24,10 @@ void setup() {
   pinMode(redPin, OUTPUT);
   pinMode(greenPin, OUTPUT);
   pinMode(bluePin, OUTPUT);
+
+  pinMode(redPotPin, INPUT);
+  pinMode(greenPotPin, INPUT);
+  pinMode(bluePotPin, INPUT);
   
 }
 
