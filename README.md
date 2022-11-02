@@ -27,7 +27,7 @@ and a beeping sound from the buzzer at a constant interval. Duration: 8 seconds.
 for people and a beeping sound from the buzzer, at a constant interval, faster than the beeping in state 3. This state should last 4 seconds.
 
 #### Picture
-![Homework2](assets/Homework2.jpeg)
+![Homework2](assets/Homework2.jpg)
 
 #### Video
 https://youtu.be/xUsdk55LEKg
