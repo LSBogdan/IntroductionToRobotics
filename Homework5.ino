@@ -26,6 +26,8 @@
 #define MENU_ITEMS_COUNT 6
 #define SETTINGS_MENU_ITEMS_COUNT 7
 #define LCD_LIGHT_ITEMS_COUNT 7
+#define DIFFICULTY_ITEMS_COUNT 5
+#define SOUND_VOLUME_ITEMS_COUNT 4
 
 #define SW_PRESSED_STATE 1
 #define SW_RELEASED_STATE 0
@@ -37,6 +39,12 @@
 
 #define JOYSTICK_MIN_TRESHOLD 350
 #define JOYSTICK_MAX_TRESHOLD 750
+
+#define LCD_LIGHT_MIN_VALUE 250
+#define LCD_LIGHT_MAX_VALUE 50
+
+#define MATRIX_LIGHT_MIN_VALUE 2
+#define MATRIX_LIGHT_MAX_VALUE 15
 
 const byte pinSW = 2;
 byte swState = HIGH;
@@ -122,8 +130,8 @@ const char* settingsItems[] = {
   "Settings list",
   "1.Difficulty",
   "2.LCD contrast",
-  "3.LCD ligth",
-  "4.Matrix ligth",
+  "3.LCD light",
+  "4.Matrix light",
   "5.Sound",
   "6.Back to menu"
 };
@@ -137,12 +145,12 @@ const char* aboutItems[] = {
 };
 
 const char* lcdLightItems[] = {
-  "LCD Light list",
-  "1. 50",
-  "2. 100",
-  "3. 150",
-  "4. 200",
-  "5. 250",
+  "LCD Light",
+  "1.Verry low",
+  "2.Low",
+  "3.Medium",
+  "4.High",
+  "5.Verry high",
   "6.Back"
 };
 
@@ -155,17 +163,38 @@ byte selectedLightLCDIndex = 0;
 
 const char* matrixLightItems[] = {
   "Matrix Light list",
-  "1. 2",
-  "2. 5",
-  "3. 10",
-  "4. 15",
-  "5. Back"
+  "1.Low",
+  "2.Medium",
+  "3.High",
+  "4.Verry high",
+  "5.Back"
 };
 
 byte matrixLight = 2;
 
 byte lightMatrixIndex = 0;
 byte selectedLightMatrixIndex = 0;
+
+const char* difficultySetItems[] = {
+  "Difficulty",
+  "1.Eassy :)",
+  "2.Medium :|",
+  "3.Hard :(",
+  "4.Back"
+};
+
+byte difficultyItemsIndex = 0;
+byte selectedDifficultyItemsIndex = 0;
+
+const char* soundSetItems[] = {
+  "Sound",
+  "1.ON",
+  "2.OF",
+  "3.Back"
+};
+
+byte soundItemsIndex = 0;
+byte selectedSoundItemsIndex = 0;
 
 byte matrix[MATRIX_SIZE][MATRIX_SIZE] = {
   { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -191,6 +220,19 @@ byte yLastPos = 0;
 byte newRandomCol = 0;
 byte newRandomRow = 0;
 
+int currentScore = 0;
+
+struct Settings {
+	
+	byte difficulty;
+	byte lcdContrast;
+	byte lcdLight;
+	byte matrixLight;
+	bool soundStatus;
+
+} settingsData;
+
+
 byte currentState = STATE_WELCOME_MESSAGE;
 
 void setup() {
@@ -200,10 +242,14 @@ void setup() {
   pinMode(pinSW, INPUT_PULLUP);
   pinMode(lcdLightPin, OUTPUT);
 
-  analogWrite(lcdLightPin, 100);
+  //analogWrite(lcdLightPin, 100);
+
+  readFromStorage();
+
+  analogWrite(lcdLightPin, settingsData.lcdLight);
 
   lc.shutdown(0, false);
-  lc.setIntensity(0, MATRIX_BRIGHTNESS);
+  lc.setIntensity(0, settingsData.matrixLight);
   lc.clearDisplay(0);
  
   lcd.begin(16, 2);
@@ -216,6 +262,14 @@ void setup() {
 
 }
 
+void readFromStorage() {
+  EEPROM.get(0, settingsData);  
+}
+
+void writeSettingsInStorage() {
+  EEPROM.put(0, settingsData);
+}
+
 void displayWelcomeMessage() {
 
   String messageToDisplay = "You play the";
@@ -223,7 +277,7 @@ void displayWelcomeMessage() {
   lcd.setCursor(0, 0);
   lcd.print(messageToDisplay);
 
-  messageToDisplay = "BEST GAME EVER";
+  messageToDisplay = "BEST SNAKE EVER";
 
   lcd.setCursor(0, 1);
   lcd.print(messageToDisplay);
@@ -356,10 +410,14 @@ void processSWState() {
   }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_DIFFICULTY) {
-    lcd.clear();
-    currentState = STATE_MENU_SETTINGS;
-    swState = SW_RELEASED_STATE;
-    return;
+
+    if (selectedDifficultyItemsIndex == 4) {
+      lcd.clear();
+      currentState = STATE_MENU_SETTINGS;
+      swState = SW_RELEASED_STATE;
+      return;
+    }
+
   }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_LCD_CONTRAST) {
@@ -383,10 +441,13 @@ void processSWState() {
   // }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_SOUND_VOLUME) {
-    lcd.clear();
-    currentState = STATE_MENU_SETTINGS;
-    swState = SW_RELEASED_STATE;
-    return;
+
+    if (selectedSoundItemsIndex == 3) {
+      lcd.clear();
+      currentState = STATE_MENU_SETTINGS;
+      swState = SW_RELEASED_STATE;
+      return;
+    }
   }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_LCD_LIGHT) {
@@ -395,6 +456,10 @@ void processSWState() {
       lcd.clear();
       lcdLight = 50;
       analogWrite(lcdLightPin, lcdLight);
+
+      settingsData.lcdLight = lcdLight;
+      writeSettingsInStorage();
+
       swState = SW_RELEASED_STATE;
       return;
     }
@@ -404,6 +469,10 @@ void processSWState() {
       lcdLight = 100;
       analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
+
+      settingsData.lcdLight = lcdLight;
+      writeSettingsInStorage();
+
       return;
     }
    
@@ -411,7 +480,12 @@ void processSWState() {
       lcd.clear();
       lcdLight = 150;
       analogWrite(lcdLightPin, lcdLight);
+
+      settingsData.lcdLight = lcdLight;
+      writeSettingsInStorage();
+
       swState = SW_RELEASED_STATE;
+      
       return;
     }
 
@@ -420,6 +494,10 @@ void processSWState() {
       lcdLight = 200;
       analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
+
+      settingsData.lcdLight = lcdLight;
+      writeSettingsInStorage();
+      
       return;
     }
    
@@ -428,6 +506,10 @@ void processSWState() {
       lcdLight = 250;
       analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
+
+      settingsData.lcdLight = lcdLight;
+      writeSettingsInStorage();
+
       return;
     }
 
@@ -435,6 +517,10 @@ void processSWState() {
       lcd.clear();
       currentState = STATE_MENU_SETTINGS;
       swState = SW_RELEASED_STATE;
+
+      settingsData.lcdLight = lcdLight;
+      writeSettingsInStorage();
+
       return;
     }
    
@@ -447,6 +533,10 @@ void processSWState() {
       matrixLight = 2;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
+
+      settingsData.matrixLight = matrixLight;
+      writeSettingsInStorage();
+
       return;
     }
 
@@ -455,6 +545,10 @@ void processSWState() {
       matrixLight = 5;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
+
+      settingsData.matrixLight = matrixLight;
+      writeSettingsInStorage();
+
       return;
     }
 
@@ -463,6 +557,10 @@ void processSWState() {
       matrixLight = 10;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
+
+      settingsData.matrixLight = matrixLight;
+      writeSettingsInStorage();
+
       return;
     }
 
@@ -471,6 +569,10 @@ void processSWState() {
       matrixLight = 15;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
+
+      settingsData.matrixLight = matrixLight;
+      writeSettingsInStorage();
+      
       return;
     }
 
@@ -840,24 +942,117 @@ void displayMatrixLight() {
   matrixLightProcessJoystickState();
 }
 
+void soundProcessJoystickState() {
+  
+    byte newDirection = getJoystickState();
+
+  if (newDirection == 0 || (newDirection != UP && newDirection != DOWN)) {
+    return;
+  }
+
+  selectedSoundItemsIndex  = newDirection == DOWN ? selectedSoundItemsIndex  + 1 : selectedSoundItemsIndex  - 1;
+  selectedSoundItemsIndex  = constrain(selectedSoundItemsIndex , 0, SOUND_VOLUME_ITEMS_COUNT  - 1);
+
+  if (newDirection == DOWN && selectedSoundItemsIndex  % 2 == 0) {
+    soundItemsIndex  = selectedSoundItemsIndex ;
+  }
+  else if (newDirection == UP && selectedSoundItemsIndex  % 2 == 1) {
+    soundItemsIndex  = selectedSoundItemsIndex  - 1;
+  }
+
+  soundItemsIndex  = constrain(soundItemsIndex , 0, SOUND_VOLUME_ITEMS_COUNT - 1);
+
+  lcd.clear();
+}
+
 void displaySoundVolume() {
 
-  String messageToDisplay = "TO DO";
+  lcd.setCursor(0, 0);  
+  lcd.print(soundSetItems[soundItemsIndex]);
 
-  lcd.setCursor(0, 0);
-  lcd.print(messageToDisplay);
+  if (soundItemsIndex > 0) {
+    lcd.setCursor(15, 0);
+    lcd.write((byte)0);
+  }
+
+
+  if (soundItemsIndex != SOUND_VOLUME_ITEMS_COUNT - 1) {
+    lcd.setCursor(0, 1);
+    lcd.print(soundSetItems[soundItemsIndex  + 1]);
+  }
+
+  if (menuIndex < SOUND_VOLUME_ITEMS_COUNT - 2) {
+    lcd.setCursor(15, 1);
+    lcd.write((byte)1);
+  }
+
+  if (selectedSoundItemsIndex ) {
+    byte currentLinePosition = selectedSoundItemsIndex  % 2;
+    byte currentLineLength = strlen(soundSetItems[selectedSoundItemsIndex ]);
+    lcd.setCursor(currentLineLength, currentLinePosition);
+    lcd.write((byte)2);
+  }
 
   processSWState();
+
+  soundProcessJoystickState();
+}
+
+
+void difficultyProcessJoystickState() {
+
+  byte newDirection = getJoystickState();
+
+  if (newDirection == 0 || (newDirection != UP && newDirection != DOWN)) {
+    return;
+  }
+
+  selectedDifficultyItemsIndex  = newDirection == DOWN ? selectedDifficultyItemsIndex  + 1 : selectedDifficultyItemsIndex  - 1;
+  selectedDifficultyItemsIndex  = constrain(selectedDifficultyItemsIndex , 0, DIFFICULTY_ITEMS_COUNT - 1);
+
+  if (newDirection == DOWN && selectedDifficultyItemsIndex  % 2 == 0) {
+    difficultyItemsIndex  = selectedDifficultyItemsIndex ;
+  }
+  else if (newDirection == UP && selectedDifficultyItemsIndex  % 2 == 1) {
+    difficultyItemsIndex  = selectedDifficultyItemsIndex  - 1;
+  }
+
+  difficultyItemsIndex  = constrain(difficultyItemsIndex , 0, MENU_ITEMS_COUNT - 1);
+
+  lcd.clear();
+
 }
 
 void displayDifficulty() {
 
-  String messageToDisplay = "TO DO";
-
   lcd.setCursor(0, 0);
-  lcd.print(messageToDisplay);
+  lcd.print(difficultySetItems[difficultyItemsIndex]);
+
+  if (difficultyItemsIndex > 0) {
+    lcd.setCursor(15, 0);
+    lcd.write((byte)0);
+  }
+
+  if (difficultyItemsIndex  != DIFFICULTY_ITEMS_COUNT - 1) {
+    lcd.setCursor(0, 1);
+    lcd.print(difficultySetItems[difficultyItemsIndex + 1]);
+  } 
+
+  if (difficultyItemsIndex < DIFFICULTY_ITEMS_COUNT - 2) {
+    lcd.setCursor(15, 1);
+    lcd.write((byte)1);
+  }
+
+  if (selectedDifficultyItemsIndex) {
+    byte currentLinePosition = selectedDifficultyItemsIndex % 2;
+    byte currentLineLength = strlen(difficultySetItems[selectedDifficultyItemsIndex]);
+    lcd.setCursor(currentLineLength, currentLinePosition);
+    lcd.write((byte)2);
+  }
 
   processSWState();
+
+  difficultyProcessJoystickState();
 }
 
 
@@ -886,17 +1081,21 @@ void updatePosition() {
   xLastPos = xPos;
   yLastPos = yPos;
 
-  if (xValue < JOYSTICK_MIN_TRESHOLD) {
-    xPos--;
-    if (xPos < 0) {
-      xPos = 7;
+  if (xValue > JOYSTICK_MIN_TRESHOLD) {
+    if (xPos < MATRIX_SIZE - 1) {
+      xPos++;
+    }
+    else {
+      xPos = 0;
     }
   }
 
-  if (xValue > JOYSTICK_MAX_TRESHOLD) {
-    xPos++;
-    if (xPos > MATRIX_SIZE - 1) {
-      xPos = 0;
+  if (xValue < JOYSTICK_MAX_TRESHOLD) {
+    if (xPos > 0) {
+      xPos--;
+    } 
+    else {
+      xPos = MATRIX_SIZE - 1;
     }
   }
 
@@ -927,7 +1126,26 @@ void updatePosition() {
 
 }
 
-void startGame() {
+void displayScore(int score) {
+
+  String messageToDisplay = "Good luck!";
+
+
+  lcd.setCursor(3, 0);
+  lcd.print(messageToDisplay);
+
+  messageToDisplay = "Score: ";
+
+  lcd.setCursor(0, 1);
+  lcd.print(messageToDisplay);
+
+  lcd.setCursor(7, 1);
+  lcd.print(score);
+}
+
+void playGame() {
+
+  currentScore == 0 ? displayScore(0) : displayScore(currentScore);
 
   if (millis() - lastMoved > moveInterval) {
     updatePosition();
@@ -940,6 +1158,7 @@ void startGame() {
 
   if (xPos == newRandomRow && yPos == newRandomCol) {
     generateFood();
+    currentScore++;
   }
 }
 
@@ -1003,7 +1222,7 @@ void loop() {
 
     case STATE_GAME:
       delay(50);
-      startGame();
+      playGame();
       processSWState();
       break;
   }
