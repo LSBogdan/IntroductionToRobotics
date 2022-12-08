@@ -487,24 +487,33 @@ void processSWState() {
 
 byte getSWState() {
 
-  reading = !digitalRead(pinSW);
+  // reading = !digitalRead(pinSW);
 
-  if (reading != lastReading) {
-    lastDebounceTime = millis();
+  // if (reading != lastReading) {
+  //   lastDebounceTime = millis();
+  // }
+
+  // if (millis() - lastDebounceTime > debounceDelay) {
+  //   if(swState != reading) {
+  //       swState = reading;
+
+  //   if (swState == LOW) {
+  //     return SW_PRESSED_STATE;
+  //     }
+  //   }
+  // }
+
+  // lastReading = reading;
+  // return SW_RELEASED_STATE;
+
+  swState = !digitalRead(pinSW);
+  
+  if (swState != lastReading) {
+    return SW_PRESSED_STATE;
   }
 
-  if (millis() - lastDebounceTime > debounceDelay) {
-    if(swState != reading) {
-        swState = reading;
-
-    if (swState == LOW) {
-      return SW_PRESSED_STATE;
-      }
-    }
-  }
-
-  lastReading = reading;
-  return SW_RELEASED_STATE;
+   lastReading = swState;
+   return SW_RELEASED_STATE;
 }
 
 void readAxes() {
