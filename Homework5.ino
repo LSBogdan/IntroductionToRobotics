@@ -30,7 +30,7 @@
 #define SW_PRESSED_STATE 1
 #define SW_RELEASED_STATE 0
 
-#define LEFT 1 
+#define LEFT 1
 #define RIGHT 2
 #define DOWN 3
 #define UP 4
@@ -109,7 +109,7 @@ unsigned long welcomeMessageTimer = millis();
 const char* menuItems[] = {
   "Menu list",
   "1.Play",
-  "2.Highscore", 
+  "2.Highscore",
   "3.Settings",
   "4.About",
   "5.How to play"
@@ -124,7 +124,7 @@ const char* settingsItems[] = {
   "2.LCD contrast",
   "3.LCD ligth",
   "4.Matrix ligth",
-  "5.Sound", 
+  "5.Sound",
   "6.Back to menu"
 };
 
@@ -155,7 +155,7 @@ byte selectedLightLCDIndex = 0;
 
 const char* matrixLightItems[] = {
   "Matrix Light list",
-  "1. 0",
+  "1. 2",
   "2. 5",
   "3. 10",
   "4. 15",
@@ -205,10 +205,10 @@ void setup() {
   lc.shutdown(0, false);
   lc.setIntensity(0, MATRIX_BRIGHTNESS);
   lc.clearDisplay(0);
-  
+ 
   lcd.begin(16, 2);
-  
-  // analogWrite(lcdBrightnessPin, 150);
+ 
+  //analogWrite(lcdBrightnessPin, 150);
 
   lcd.createChar(0, arrowUp);
   lcd.createChar(1, arrowDown);
@@ -284,7 +284,7 @@ void processSWState() {
       swState = SW_RELEASED_STATE;
       return;
     }
-    
+   
     if (selectedSettingsMenuIndex == 2) {
       lcd.clear();
       currentState = STATE_SET_LCD_CONTRAST;
@@ -304,7 +304,7 @@ void processSWState() {
       currentState = STATE_SET_MATRIX_LIGHT;
       swState = SW_RELEASED_STATE;
       return;
-    } 
+    }
 
     if (selectedSettingsMenuIndex == 5) {
       lcd.clear();
@@ -326,10 +326,10 @@ void processSWState() {
     currentState = STATE_MENU;
     swState = SW_RELEASED_STATE;
     return;
-  } 
+  }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_HOW_TO_PLAY) {
-    
+   
     lcd.clear();
     currentState = STATE_MENU;
     swState = SW_RELEASED_STATE;
@@ -338,21 +338,21 @@ void processSWState() {
   }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_HIGHSCORE) {
-    
+   
     lcd.clear();
     currentState = STATE_MENU;
     swState = SW_RELEASED_STATE;
     return;
-    
+   
   }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_GAME) {
-    
+   
     lcd.clear();
     currentState = STATE_MENU;
     swState = SW_RELEASED_STATE;
     return;
-    
+   
   }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_DIFFICULTY) {
@@ -369,19 +369,18 @@ void processSWState() {
     return;
   }
 
-  if (swState == SW_PRESSED_STATE &&  currentState == STATE_SET_LCD_LIGHT) {
-    lcd.clear();
-    currentState = STATE_MENU_SETTINGS;
-    swState = SW_RELEASED_STATE;
-    return;
-  }
-
-  if (swState == SW_PRESSED_STATE &&  currentState == STATE_SET_MATRIX_LIGHT) {
-    lcd.clear();
-    currentState = STATE_MENU_SETTINGS;
-    swState = SW_RELEASED_STATE;
-    return;
-  }
+  // if (swState == SW_PRESSED_STATE &&  currentState == STATE_SET_LCD_LIGHT) {
+  //   lcd.clear();
+  //   currentState = STATE_MENU_SETTINGS;
+  //   swState = SW_RELEASED_STATE;
+  //   return;
+  // }
+  // if (swState == SW_PRESSED_STATE &&  currentState == STATE_SET_MATRIX_LIGHT) {
+  //   lcd.clear();
+  //   currentState = STATE_MENU_SETTINGS;
+  //   swState = SW_RELEASED_STATE;  
+  //   return;
+  // }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_SOUND_VOLUME) {
     lcd.clear();
@@ -392,63 +391,63 @@ void processSWState() {
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_LCD_LIGHT) {
 
-    if (selectedLightLCDIndex == 1) { 
+    if (selectedLightLCDIndex == 1) {
       lcd.clear();
       lcdLight = 50;
-      //analogWrite(lcdLightPin, lcdLight);
+      analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
       return;
     }
 
-    if (selectedLightLCDIndex == 2) { 
+    if (selectedLightLCDIndex == 2) {
       lcd.clear();
       lcdLight = 100;
-      //analogWrite(lcdLightPin, lcdLight);
+      analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
       return;
     }
-    
-    if (selectedLightLCDIndex == 3) { 
+   
+    if (selectedLightLCDIndex == 3) {
       lcd.clear();
       lcdLight = 150;
-      //analogWrite(lcdLightPin, lcdLight);
+      analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
       return;
     }
 
-    if (selectedLightLCDIndex ==4) { 
+    if (selectedLightLCDIndex ==4) {
       lcd.clear();
       lcdLight = 200;
-      //analogWrite(lcdLightPin, lcdLight);
+      analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
       return;
     }
-    
-    if (selectedLightLCDIndex == 5) { 
+   
+    if (selectedLightLCDIndex == 5) {
       lcd.clear();
       lcdLight = 250;
-      //analogWrite(lcdLightPin, lcdLight);
+      analogWrite(lcdLightPin, lcdLight);
       swState = SW_RELEASED_STATE;
       return;
     }
 
-    if (selectedLightLCDIndex == 6) { 
+    if (selectedLightLCDIndex == 6) {
       lcd.clear();
       currentState = STATE_MENU_SETTINGS;
       swState = SW_RELEASED_STATE;
       return;
     }
-    
+   
   }
 
   if (swState == SW_PRESSED_STATE && currentState == STATE_SET_MATRIX_LIGHT) {
 
     if (selectedLightMatrixIndex == 1) {
       //lcd.clear();
-      matrixLight = 0;
+      matrixLight = 2;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
-      return; 
+      return;
     }
 
     if (selectedLightMatrixIndex == 2) {
@@ -456,7 +455,7 @@ void processSWState() {
       matrixLight = 5;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
-      return; 
+      return;
     }
 
     if (selectedLightMatrixIndex == 3) {
@@ -464,7 +463,7 @@ void processSWState() {
       matrixLight = 10;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
-      return; 
+      return;
     }
 
     if (selectedLightMatrixIndex == 4) {
@@ -472,14 +471,14 @@ void processSWState() {
       matrixLight = 15;
       lc.setIntensity(0, matrixLight);
       swState = SW_RELEASED_STATE;
-      return; 
+      return;
     }
 
     if (selectedLightMatrixIndex == 5) {
       lcd.clear();
       currentState = STATE_MENU_SETTINGS;
       swState = SW_RELEASED_STATE;
-      return; 
+      return;
     }
   }
 
@@ -507,7 +506,7 @@ byte getSWState() {
   // return SW_RELEASED_STATE;
 
   swState = !digitalRead(pinSW);
-  
+ 
   if (swState != lastReading) {
     return SW_PRESSED_STATE;
   }
@@ -528,7 +527,7 @@ byte getJoystickState() {
   if (xValue < JOYSTICK_MIN_TRESHOLD && !joystickMoved) {
     joystickMoved = true;
     return RIGHT;
-  } 
+  }
 
   if (xValue > JOYSTICK_MAX_TRESHOLD && !joystickMoved) {
     joystickMoved = true;
@@ -559,14 +558,14 @@ void menuProcessJoystickState() {
 
   if (newDirection == 0 || (newDirection != UP && newDirection != DOWN)) {
     return;
-  } 
+  }
 
   selectedMenuIndex = newDirection == DOWN ? selectedMenuIndex + 1 : selectedMenuIndex - 1;
   selectedMenuIndex = constrain(selectedMenuIndex, 0, MENU_ITEMS_COUNT  - 1);
 
   if (newDirection == DOWN && selectedMenuIndex % 2 == 0) {
     menuIndex = selectedMenuIndex;
-  } 
+  }
   else if (newDirection == UP && selectedMenuIndex % 2 == 1) {
     menuIndex = selectedMenuIndex - 1;
   }
@@ -578,15 +577,15 @@ void menuProcessJoystickState() {
 }
 
 void displayMenu() {
-  
-  
+ 
+ 
   lcd.setCursor(0, 0);  
-  lcd.print(menuItems[menuIndex]); 
+  lcd.print(menuItems[menuIndex]);
 
   if (menuIndex > 0) {
     lcd.setCursor(15, 0);
     lcd.write((byte)0);
-  } 
+  }
 
 
   if (menuIndex != MENU_ITEMS_COUNT - 1) {
@@ -600,15 +599,15 @@ void displayMenu() {
   }
 
   if (selectedMenuIndex) {
-    byte currentLinePosition = selectedMenuIndex % 2; 
-    byte currentLineLength = strlen(menuItems[selectedMenuIndex]); 
+    byte currentLinePosition = selectedMenuIndex % 2;
+    byte currentLineLength = strlen(menuItems[selectedMenuIndex]);
     lcd.setCursor(currentLineLength, currentLinePosition);
     lcd.write((byte)2);
   }
 
   processSWState();
-  
-  
+ 
+ 
   menuProcessJoystickState();
 }
 
@@ -650,7 +649,7 @@ void displaySettingsMenu() {
     lcd.setCursor(0, 1);
     lcd.print(settingsItems[settingsMenuIndex + 1]);
   }
-  
+ 
   if (settingsMenuIndex < SETTINGS_MENU_ITEMS_COUNT - 2) {
     lcd.setCursor(15, 1);
     lcd.write((byte)1);
@@ -666,7 +665,7 @@ void displaySettingsMenu() {
   processSWState();
 
   settingsMenuProcessJoystickState();
-  
+ 
 }
 
 void displayAbout() {
@@ -714,7 +713,7 @@ void displayContrast() {
   lcd.setCursor(0, 1);
   lcd.print(messageToDisplay);
 
-  processSWState(); 
+  processSWState();
 }
 
 void displayLCDLightProcessJoystickState() {
@@ -742,7 +741,7 @@ void displayLCDLightProcessJoystickState() {
 }
 
 void displayLCDLight() {
-    
+   
   lcd.setCursor(0, 0);
   lcd.print(lcdLightItems[lightLCDIndex]);
 
@@ -768,7 +767,7 @@ void displayLCDLight() {
     lcd.write((byte)2);
   }
 
-  processSWState(); 
+  processSWState();
 
   displayLCDLightProcessJoystickState();
 
@@ -881,7 +880,7 @@ void generateFood() {
 }
 
 void updatePosition() {
-  
+ 
   readAxes();
 
   xLastPos = xPos;
@@ -904,7 +903,7 @@ void updatePosition() {
   if (yValue < JOYSTICK_MIN_TRESHOLD) {
     if (yPos > 0) {
       yPos--;
-    } 
+    }
     else {
       yPos = MATRIX_SIZE - 1;
     }
@@ -945,23 +944,23 @@ void startGame() {
 }
 
 void loop() {
-  
+ 
   switch(currentState){
 
     case STATE_WELCOME_MESSAGE:
       displayWelcomeMessage();
       break;
-    
+   
     case STATE_MENU:
       delay(50);
       displayMenu();
       break;
-    
-    case STATE_MENU_SETTINGS: 
+   
+    case STATE_MENU_SETTINGS:
       delay(50);
       displaySettingsMenu();
       break;
-      
+     
     case STATE_ABOUT:
       delay(50);
       displayAbout();
@@ -972,11 +971,11 @@ void loop() {
       displayHowToPlay();
       break;
 
-    case STATE_HIGHSCORE: 
+    case STATE_HIGHSCORE:
       delay(50);
       displayHighscore();
       break;
-      
+     
     case STATE_SET_LCD_CONTRAST:
       delay(50);
       displayContrast();
@@ -996,7 +995,7 @@ void loop() {
       delay(50);
       displaySoundVolume();
       break;
-    
+   
     case STATE_SET_DIFFICULTY:
       delay(50);
       displayDifficulty();
