@@ -88,7 +88,7 @@ work continuosly increment if you keep the joystick in one position
 (aka with joyMoved).
 
 #### Picture
-![Homework3](assets/Homework4.jpeg)
+![Homework4](assets/Homework4.jpeg)
 
 #### Video
 https://youtu.be/xVdoAfX9g8Y
@@ -99,11 +99,11 @@ https://youtu.be/xVdoAfX9g8Y
 Build a game and a menu.
 
 #### Picture
-![Homework3](assets/Homework5.jpeg)
+![Homework5](assets/Homework5.jpeg)
 
 
 #### Video
-https://youtu.be/X_BHSvZ6uC4
+https://youtu.be/pq-VQh95DNY
 
 
 
