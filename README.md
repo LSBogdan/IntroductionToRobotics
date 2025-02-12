@@ -1,109 +1,111 @@
-# IntroductionToRobotics
-Tasks completed in the Introduction to Robotics course.
+# 🤖 **IntroductionToRobotics: Hands-On Homework Projects** 🔧
 
-### Homework #0
-Installing Arduino IDE and setting up this repository.
+Welcome to the **IntroductionToRobotics** repository—a collection of interactive projects designed to bridge theory and practice in robotics. Each homework assignment challenges you with unique tasks, from controlling LEDs to designing interactive displays and even game development. Dive in, explore the details, and enjoy the journey of building and learning!
 
-### Homework #1
+
+
+## Homework Projects 🎓
+
+### Homework #0: Setup & Repository Initialization 🔌
+- **Task:** Install the Arduino IDE and set up this repository to get started with your robotics journey.
+
+
+### Homework #1: RGB LED Control with Potentiometers 🎨
 #### Task Requirements
-Use 3 potentiometers to digitally control a RGB LED.
+- **Objective:** Use **3 potentiometers** to digitally control an **RGB LED**.
 
-#### Picture
-![Homework1](assets/Homework1.jpeg)
+#### Visuals
+- **Picture:**  
+  ![Homework1](assets/Homework1.jpeg)
+- **Video:**  
+  [Watch on YouTube](https://youtube.com/shorts/7UpbI1kL0GU?feature=share)
 
-#### Video
-https://youtube.com/shorts/7UpbI1kL0GU?feature=share
 
-### Homework #2
+### Homework #2: Crosswalk Traffic Lights 🚦
 #### Task Requirements
-Build the traffic lights for a crosswalk. The system has the following states:
-- *State1* (default, reinstated after state 4 ends): green light for cars,
-red light for people, no sounds. Duration: indefinite, changed by pressing the button.
-- *State2* (initiated by counting down 8 seconds after a button press):
-the light should be yellow for cars, red for people and no sounds. Duration: 3 seconds.
-- *State3* (initiated after state 2 ends): red for cars, green for people
-and a beeping sound from the buzzer at a constant interval. Duration: 8 seconds.
-- *State4* (initiated after state 3 ends): red for cars, blinking green
-for people and a beeping sound from the buzzer, at a constant interval, faster than the beeping in state 3. This state should last 4 seconds.
+Develop a crosswalk traffic light system with these specific states:
+- **State 1:** *(Default)*  
+  - **Cars:** Green light  
+  - **Pedestrians:** Red light  
+  - **Sound:** None  
+  *(Duration: Indefinite; changes upon button press)*
+- **State 2:**  
+  - **Cars:** Yellow light  
+  - **Pedestrians:** Red light  
+  - **Sound:** None  
+  *(Duration: 3 seconds, initiated after an 8-second countdown from button press)*
+- **State 3:**  
+  - **Cars:** Red light  
+  - **Pedestrians:** Green light  
+  - **Sound:** Constant beeping from the buzzer  
+  *(Duration: 8 seconds)*
+- **State 4:**  
+  - **Cars:** Red light  
+  - **Pedestrians:** Blinking green light  
+  - **Sound:** Faster beeping than in State 3  
+  *(Duration: 4 seconds)*
 
-#### Picture
-![Homework2](assets/Homework2.jpg)
+#### Visuals
+- **Picture:**  
+  ![Homework2](assets/Homework2.jpg)
+- **Video:**  
+  [Watch on YouTube](https://youtu.be/xUsdk55LEKg)
 
-#### Video
-https://youtu.be/xUsdk55LEKg
 
-
-### Homework #3
+### Homework #3: Joystick-Controlled Display Drawing 🖌️
 #### Task Requirements
-You will use the joystick to control the position of
-the segment and ”draw” on the display. The movement between segments
-should be natural (meaning they should jump from the current position
-only to neighbors, but without passing through ”walls”. The system has the following states:
-- *State1* (default, but also initiated after a button press in State
-2): Current position blinking. Can use the joystick to move from
-one position to neighbors. Short pressing the button toggles state2. Long pressing the button in state 1 resets the entire display by
-turning all the segments OFF and moving the current position to the
-decimal point.
-- *State2* (initiated after a button press in State 1): The current
-segment stops blinking, adopting the state of the segment before
-selection (ON or OFF). Toggling the X (or Y, you chose) axis should
-change the segment state from ON to OFF or from OFF to ON.
-Clicking the joystick should save the segment state and exit back to
-state 1.
+Implement a system that uses a joystick to control the position of a segment and “draw” on a display. The project features two main states:
 
-#### Picture
-![Homework3](assets/Homework3.jpeg)
+- **State 1:** *(Default)*  
+  - The current position blinks.  
+  - Use the joystick to move to adjacent positions (ensuring movement only to neighboring segments without crossing “walls”).  
+  - **Short Button Press:** Toggles to State 2.  
+  - **Long Button Press:** Resets the display (turns all segments OFF) and repositions to the decimal point.
 
-#### Video
-https://youtu.be/Yl7lZxhp6LI
+- **State 2:**  
+  - The blinking stops, and the segment adopts its previous state (ON/OFF).  
+  - Moving the joystick along the selected axis toggles the segment state.  
+  - **Joystick Click:** Saves the current segment state and returns to State 1.
 
-### Homework #4
+#### Visuals
+- **Picture:**  
+  ![Homework3](assets/Homework3.jpeg)
+- **Video:**  
+  [Watch on YouTube](https://youtu.be/Yl7lZxhp6LI)
+
+
+### Homework #4: 4-Digit 7-Segment Display Control 🔢
 #### Task Requirements
-Use the joystick to move through the 4 digit 7
-segment displays digits, press the button to lock in on the current digit
-and use the other axis to increment or decrement the number. Keep the
-button pressed to reset all the digit values and the current position to the
-first digit in the first state.
-- *State1* you can use a joystick axis to cycle through the 4 digits;
-using the other axis does nothing. A blinking decimal point shows
-the current digit position. When pressing the button, you lock in on
-the selected digit and enter the second state.
-- *State2*  in this state, the decimal point stays always on, no
-longer blinking and you can no longer use the axis to cycle through
-the 4 digits. Instead, using the other axis, you can increment on
-decrement the number on the current digit IN HEX (aka from 0
-to F, as in the lab). Pressing the button again returns you to the
-previous state. Also, keep in mind that when changing the number,
-you must increment it for each joystick movement - it should not
-work continuosly increment if you keep the joystick in one position
-(aka with joyMoved).
-- *Reset*  in this state, the decimal point stays always on, no
-longer blinking and you can no longer use the axis to cycle through
-the 4 digits. Instead, using the other axis, you can increment on
-decrement the number on the current digit IN HEX (aka from 0
-to F, as in the lab). Pressing the button again returns you to the
-previous state. Also, keep in mind that when changing the number,
-you must increment it for each joystick movement - it should not
-work continuosly increment if you keep the joystick in one position
-(aka with joyMoved).
+Create an interactive system using a joystick to manage a 4-digit 7-segment display:
+- **State 1:**  
+  - Use one joystick axis to cycle through the 4 digits.  
+  - The current digit is highlighted by a blinking decimal point.  
+  - **Button Press:** Locks in the current digit and enters State 2.
 
-#### Picture
-![Homework4](assets/Homework4.jpeg)
+- **State 2:**  
+  - The decimal point stays on (no longer blinking).  
+  - The joystick axis now increments or decrements the current digit’s value in hexadecimal (0 to F).  
+  - **Note:** Each discrete movement adjusts the number by one step; holding the joystick does not result in continuous change.
 
-#### Video
-https://youtu.be/xVdoAfX9g8Y
+- **Reset Functionality:**  
+  - Holding the button resets all digit values and returns the position to the first digit in State 1.
+
+#### Visuals
+- **Picture:**  
+  ![Homework4](assets/Homework4.jpeg)
+- **Video:**  
+  [Watch on YouTube](https://youtu.be/xVdoAfX9g8Y)
 
 
-### Homework #5
+### Homework #5: Game Development & Menu Design 🎮
 #### Task Requirements
-Build a game and a menu.
+- **Objective:** Build an engaging game complete with an interactive menu system.
 
-#### Picture
-![Homework5](assets/Homework5.jpeg)
-
-
-#### Video
-https://youtu.be/pq-VQh95DNY
-
+#### Visuals
+- **Picture:**  
+  ![Homework5](assets/Homework5.jpeg)
+- **Video:**  
+  [Watch on YouTube](https://youtu.be/pq-VQh95DNY)
 
 
+Feel free to explore each project to gain hands-on experience with robotics programming, hardware interfacing, and interactive design. Happy building and experimenting! 🚀
