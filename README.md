@@ -15,9 +15,9 @@ Welcome to the **IntroductionToRobotics** repository—a collection of interacti
 - **Objective:** Use **3 potentiometers** to digitally control an **RGB LED**.
 
 #### Visuals
-- **Picture:**  
+- **Picture 📸**  
   ![Homework1](assets/Homework1.jpeg)
-- **Video:**  
+- **Video 🎥**  
   [Watch on YouTube](https://youtube.com/shorts/7UpbI1kL0GU?feature=share)
 
 
@@ -46,9 +46,9 @@ Develop a crosswalk traffic light system with these specific states:
   *(Duration: 4 seconds)*
 
 #### Visuals
-- **Picture:**  
+- **Picture 📸** 
   ![Homework2](assets/Homework2.jpg)
-- **Video:**  
+- **Video 🎥**  
   [Watch on YouTube](https://youtu.be/xUsdk55LEKg)
 
 
@@ -68,9 +68,9 @@ Implement a system that uses a joystick to control the position of a segment and
   - **Joystick Click:** Saves the current segment state and returns to State 1.
 
 #### Visuals
-- **Picture:**  
+- **Picture 📸**  
   ![Homework3](assets/Homework3.jpeg)
-- **Video:**  
+- **Video 🎥**   
   [Watch on YouTube](https://youtu.be/Yl7lZxhp6LI)
 
 
@@ -91,9 +91,9 @@ Create an interactive system using a joystick to manage a 4-digit 7-segment disp
   - Holding the button resets all digit values and returns the position to the first digit in State 1.
 
 #### Visuals
-- **Picture:**  
+- **Picture 📸**  
   ![Homework4](assets/Homework4.jpeg)
-- **Video:**  
+- **Video 🎥**  
   [Watch on YouTube](https://youtu.be/xVdoAfX9g8Y)
 
 
@@ -102,9 +102,9 @@ Create an interactive system using a joystick to manage a 4-digit 7-segment disp
 - **Objective:** Build an engaging game complete with an interactive menu system.
 
 #### Visuals
-- **Picture:**  
+- **Picture 📸** 
   ![Homework5](assets/Homework5.jpeg)
-- **Video:**  
+- **Video 🎥**  
   [Watch on YouTube](https://youtu.be/pq-VQh95DNY)
 
 
